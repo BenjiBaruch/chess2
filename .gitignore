@@ -1,0 +1,5 @@
+# Project exclude paths
+/out/
+/data/
+/data/lichess_db_puzzle.csv
+/data/lichess_db_puzzle.csv.zst
