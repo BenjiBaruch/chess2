@@ -65,7 +65,7 @@ public class SimplifiedChessBoard {
         return board;
     }
 
-    public static int[] chessPieceToIntBoard(ChessPiece[][] wackyBoard, int turn, boolean flipBoard, int halfMove) {
+    public static int[] chessPieceToIntBoard(ChessPiece[][] wackyBoard, int turn, boolean flipBoard, int halfMove, boolean povIsWhite) {
         /*
         Creates int[] board from ChessPiece[][] board
          */
@@ -79,7 +79,7 @@ public class SimplifiedChessBoard {
                     if (piece % 9 > 0) piece++;
                     if (piece % 9 > 3) piece++;
                     else if ((piece % 9 == 0 || piece % 9 == 3) && !wackyBoard[i][j].getCastleable()) piece++;
-                    if (piece % 9 == 7 && wackyBoard[i][j].getEnPassantable(turn)) {
+                    if (piece % 9 == 7 && wackyBoard[i][j].getEnPassantable(halfMove)) {
                         piece++;
                         board[67] = i*8+j;
                     }
@@ -92,7 +92,7 @@ public class SimplifiedChessBoard {
                     if (piece % 9 > 0) piece++;
                     if (piece % 9 > 3) piece++;
                     else if ((piece % 9 == 0 || piece % 9 == 3) && !wackyBoard[7-i][j].getCastleable()) piece++;
-                    if (piece % 9 == 7 && wackyBoard[7-i][j].getEnPassantable(turn)) {
+                    if (piece % 9 == 7 && wackyBoard[7-i][j].getEnPassantable(halfMove)) {
                         piece++;
                         board[67] = i*8+j;
                     }
@@ -102,7 +102,7 @@ public class SimplifiedChessBoard {
                 }
             }
         }
-        board[64] = (turn+1)%2;
+        board[64] = povIsWhite ? 1 : 0;
         board[68] = halfMove;
         board[69] = turn/2;
         return board;

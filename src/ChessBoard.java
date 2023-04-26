@@ -39,9 +39,11 @@ public class ChessBoard {
             String str = scan.nextLine();
             System.out.println(str);
             int[] intBoard = SimplifiedChessBoard.flipBoard(SimplifiedChessBoard.stringToIntBoard(str, true));
+            povIsWhite = intBoard[64] == 1;
             board = SimplifiedChessBoard.intToChessPieceBoard(intBoard, povIsWhite);
-            System.out.println(Search.ChessBoardSearch(this));
             turns = intBoard[69];
+            System.out.println("White to move = " + povIsWhite + "\n intBoard[64] = " + intBoard[64]);
+            System.out.println(Search.ChessBoardSearch(this));
         }
     }
 

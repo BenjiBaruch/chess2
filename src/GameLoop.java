@@ -64,7 +64,7 @@ public class GameLoop implements MouseListener {
             int[] highlights;
             if (highlightMode == 1) highlights = board.highlights(selected);
             else if (highlightMode == 2) {
-                highlights = SimplifiedChessBoard.getMoveList(SimplifiedChessBoard.chessPieceToIntBoard(board.getBoard(), board.getTurns(), !povIsWhite, 0), board.getTurns()%2==0);
+                highlights = SimplifiedChessBoard.getMoveList(SimplifiedChessBoard.chessPieceToIntBoard(board.getBoard(), board.getTurns(), !povIsWhite, 0, povIsWhite), board.getTurns()%2==0);
             }
             // else if (highlightMode == 3) {
             //     highlights = EvaluateBoard.evaluate(SimplifiedChessBoard.chessPieceToInt(board.getBoard(), board.getTurns(), !povIsWhite), true, false);

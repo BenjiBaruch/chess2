@@ -11,7 +11,7 @@ public class Search {
         return getBestMove(board);
     }
     public static String ChessPieceBoardSearch(ChessPiece[][] board, int turn, int halfmove, boolean povIsWhite) {
-        return getBestMove(SimplifiedChessBoard.chessPieceToIntBoard(board, turn, !povIsWhite, halfmove));
+        return getBestMove(SimplifiedChessBoard.chessPieceToIntBoard(board, turn, !povIsWhite, halfmove, povIsWhite));
     }
     public static String ChessBoardSearch(ChessBoard board) {
         return ChessPieceBoardSearch(board.getBoard(), board.getTurns(), board.getHalfMove(), board.isPovIsWhite());
