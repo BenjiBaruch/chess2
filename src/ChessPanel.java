@@ -73,6 +73,7 @@ public class ChessPanel extends JPanel {
                                         // Paint unselected dark tile in brown
                                         g2.fillRect(col * 80, row * 80, 80, 80);
                                 }
+                                g2.drawString("" + (char)(col+'A') + row, col*80-35, row*80-35);
                                 if (board[row][col] != null) {
                                         // Draw piece on board
                                         ChessPiece piece = board[row][col];

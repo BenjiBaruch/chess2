@@ -7,14 +7,14 @@ public class GameLoop implements MouseListener {
     private int selected = -1;
     private boolean povTurn;
     private ChessBoard board;
-    private String boardType = "custom";
+    private String boardType = "default";
     /*
     Board Types:
     "default"
     "custom"
      */
     private final boolean povIsWhite = false;
-    private final int playMode = 2;
+    private final int playMode = 0;
     /*
     Modes:
     0: Player vs Player
