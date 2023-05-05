@@ -1,4 +1,8 @@
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class SimplifiedChessBoard {
     /*
@@ -36,6 +40,7 @@ public class SimplifiedChessBoard {
     // https://www.bettercodebytes.com/the-cost-of-object-creation-in-java-including-garbage-collection/
 
     static final int[][] weights = getWeights();
+    static final int[] samplePieceValues = {0, -6, -6, -5, -4, -4, -2, -3, -1, -1, 6, 6, 5, 4, 4, 2, 3, 1, 1};
 
     public static int[] newBlankBoard() {
         /*
@@ -682,5 +687,73 @@ public class SimplifiedChessBoard {
             str.append('\n');
         }
         return str.toString();
+    }
+
+
+    private static int parseEval(String eval) {
+        if (eval.charAt(0) == '#') {
+            // '#' indicates end of game
+            if (eval.charAt(2) == '0') return 0;
+            if (eval.charAt(1) == '+') return -9999;
+            if (eval.charAt(1) == '-') return 9999;
+            System.out.println("\n? " + eval);
+            return 0;
+        }
+        else if (eval.charAt(0) == '+') {
+            return -Integer.parseInt(eval.substring(1));
+        }
+        else {
+            return -Integer.parseInt(eval);
+        }
+    }
+
+    public static String fenToSample(String[] fen) {
+        int[] board = stringToIntBoard(fen[0], false);
+        int eval = parseEval(fen[1]);
+        StringBuilder sample = new StringBuilder(200);
+        for (int i = 0; i < 64; i++) {
+            sample.append(Integer.toString(samplePieceValues[board[i] + 1]));
+            sample.append(',');
+        }
+        sample.append(Integer.toString(eval));
+        sample.append('\n');
+        return sample.toString();
+    }
+
+
+    public static void convertFenCSV(String iPath, String oPath, int stop) {
+        FileWriter out;
+        try {
+            out = new FileWriter(oPath, true);
+        } catch (IOException e) {
+            System.out.println("frick 3");
+            return;
+        }
+        try (BufferedReader in = new BufferedReader(new FileReader(iPath))) {
+            String entry;
+            in.readLine();
+            int i = 0;
+            while ((entry = in.readLine()) != null) {
+                if (i++ % 100 == 0) System.out.print('i');
+                if (i >= stop) return;
+                String[] fen = entry.split(",");
+                String sample = fenToSample(fen);
+                out.write(sample);
+                out.flush();
+            }
+            out.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("frick 404");
+        } catch (IOException e) {
+            System.out.println("frick 2");
+        }
+    }
+
+    public static void main(String[] args) {
+        convertFenCSV(
+        "C:\\Users\\ultra\\IdeaProjects\\chess2\\data\\fen1.csv",
+        "C:\\Users\\ultra\\IdeaProjects\\chess2\\data\\samples.csv",
+        10000
+        );
     }
 }
