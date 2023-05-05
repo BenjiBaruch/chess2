@@ -254,6 +254,60 @@ public class SimplifiedChessBoard {
         return board;
     }
 
+    public static String intBoardToString(int[] board) {
+        StringBuilder str = new StringBuilder();
+        int blank = 0;
+        // 0: White King, castleable
+        // 1: White King, uncastleable
+        // 2: White Queen
+        // 3: White Rook, castleable
+        // 4. White Rook, uncastleable
+        // 5: White Bishop
+        // 6: White Knight
+        // 7: White Pawn, unenpassantable
+        // 8: White Pawn, enpassantable
+        // 9: Black King, castleable
+        // 10: Black King, uncastleable
+        // 11: Black Queen
+        // 12: Black Rook, castleable
+        // 13: Black Rook, uncastleable
+        // 14: Black Bishop
+        // 15: Black Knight
+        // 16: Black Pawn, unenpassantable
+        // 17: Black Pawn, enpassantable
+        for (int i = 0; i < 64; i++) {
+            if (i % 8 == 0 && i > 0) {
+                if (blank > 0) str.append(blank);
+                blank = 0;
+                str.append('/');
+            }
+            if (board[i] == -1) {
+                blank++;
+                continue;
+            }
+            if (blank > 0) str.append(blank);
+            blank = 0;
+            char x;
+            switch (board[i]) {
+                case 0, 1 ->    x = 'K';
+                case 2 ->       x = 'Q';
+                case 3, 4 ->    x = 'R';
+                case 5 ->       x = 'B';
+                case 6 ->       x = 'N';
+                case 7, 8 ->    x = 'P';
+                case 9, 10 ->   x = 'k';
+                case 11 ->      x = 'q';
+                case 12, 13 ->  x = 'r';
+                case 14 ->      x = 'b';
+                case 15 ->      x = 'n';
+                case 16, 17 ->  x = 'p';
+                default ->      x = '?';
+            }
+            str.append(x);
+        }
+        return str.toString();
+    }
+
     public static int[] flipBoard(int[] board1) {
         /*
         Flips the board vertically
@@ -742,6 +796,28 @@ public class SimplifiedChessBoard {
                 out.flush();
             }
             out.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("frick 404");
+        } catch (IOException e) {
+            System.out.println("frick 2");
+        }
+    }
+
+    public static String sampleToFen(String iPath, int start, int stop) {
+        ArrayList<String> fens = new ArrayList<>(stop - start);
+        try (BufferedReader in = new BufferedReader(new FileReader(iPath))) {
+            String entry;
+            String[] sample;
+            int[]
+            for (int i = 0; i < start; i++) {
+                in.readLine();
+            }
+            for (int i = start; i < stop; i++) {
+                entry = in.readLine();
+                if (entry == null) continue;
+                sample = entry.split(",");
+
+            }
         } catch (FileNotFoundException e) {
             System.out.println("frick 404");
         } catch (IOException e) {
