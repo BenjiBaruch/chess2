@@ -41,7 +41,7 @@ public class SimplifiedChessBoard {
 
     static final int[][] weights = getWeights();
     static final int[] samplePieceValues = {0, -6, -6, -5, -4, -4, -2, -3, -1, -1, 6, 6, 5, 4, 4, 2, 3, 1, 1};
-
+    static final int[] sampleOrder = {10, 10, 8, 6, 6, 2, 4, 0, 0, 11, 11, 9, 7, 7, 3, 5, 1, 1};
     public static int[] newBlankBoard() {
         /*
         Creates int[] chess board with initial position.
@@ -193,19 +193,19 @@ public class SimplifiedChessBoard {
         while (str.charAt(++strIndex) != ' ') {
             if (str.charAt(strIndex) == 'Q') {
                 board[board[65]] = 0;
-                board[7] = 3;
+                board[7] = (!flipBoard ? 12 : 3);
             }
             else if (str.charAt(strIndex) == 'K') {
                 board[board[65]] = 0;
-                board[0] = 3;
+                board[0] = (!flipBoard ? 12 : 3);
             }
             else if (str.charAt(strIndex) == 'q') {
                 board[board[66]] = 9;
-                board[63] = 12;
+                board[63] = (!flipBoard ? 3 : 12);
             }
             else if (str.charAt(strIndex) == 'k') {
                 board[board[66]] = 9;
-                board[56] = 12;
+                board[56] = (!flipBoard ? 3 : 12);
             }
         }
         // If no extra info, return board
@@ -584,6 +584,19 @@ public class SimplifiedChessBoard {
         return moveList;
     }
 
+    public static boolean[][] attackMaps(int[] board) {
+        boolean[][] map = new boolean[2][64];
+        for (int i = 0; i < 64; i++) {
+            if (board[i] > -1) {
+                map[board[i]>8?1:0][i] = true;
+                for (int move : getPieceMoves(board, i)) {
+                    map[board[i]>8?1:0][move%64] = true;
+                }
+            }
+        }
+        return map;
+    }
+
     public static String moveToString(int[] board, int move) {
         /*
         Converts a move from int to string, formatted in algebraic notation
@@ -754,10 +767,10 @@ public class SimplifiedChessBoard {
             return 0;
         }
         else if (eval.charAt(0) == '+') {
-            return -Integer.parseInt(eval.substring(1));
+            return Integer.parseInt(eval.substring(1));
         }
         else {
-            return -Integer.parseInt(eval);
+            return Integer.parseInt(eval);
         }
     }
 
@@ -765,9 +778,20 @@ public class SimplifiedChessBoard {
         int[] board = stringToIntBoard(fen[0], false);
         int eval = parseEval(fen[1]);
         StringBuilder sample = new StringBuilder(200);
-        for (int i = 0; i < 64; i++) {
-            sample.append(Integer.toString(samplePieceValues[board[i] + 1]));
-            sample.append(',');
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 64; j++) {
+                if (board[j] > -1 && sampleOrder[board[j]] == i)
+                    sample.append('1');
+                else
+                    sample.append('0');
+                sample.append(',');
+            }
+        }
+        for (boolean[] side : attackMaps(board)) {
+            for (boolean i : side) {
+                sample.append(i ? '1' : '0');
+                sample.append(',');
+            }
         }
         sample.append(Integer.toString(eval));
         sample.append('\n');
@@ -802,7 +826,7 @@ public class SimplifiedChessBoard {
             System.out.println("frick 2");
         }
     }
-
+/*
     public static String sampleToFen(String iPath, int start, int stop) {
         ArrayList<String> fens = new ArrayList<>(stop - start);
         try (BufferedReader in = new BufferedReader(new FileReader(iPath))) {
@@ -825,11 +849,13 @@ public class SimplifiedChessBoard {
         }
     }
 
+ */
+
     public static void main(String[] args) {
         convertFenCSV(
         "C:\\Users\\ultra\\IdeaProjects\\chess2\\data\\fen1.csv",
         "C:\\Users\\ultra\\IdeaProjects\\chess2\\data\\samples.csv",
-        10000
+        1000000
         );
     }
 }
