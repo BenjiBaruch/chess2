@@ -17,7 +17,7 @@ public class Search {
         return ChessPieceBoardSearch(board.getBoard(), board.getTurns(), board.getHalfMove(), board.isPovIsWhite());
     }
     public static String stringSearch (String board) {
-        return getBestMove(SimplifiedChessBoard.stringToIntBoard(board, true));
+        return getBestMove(SimplifiedChessBoard.stringToIntBoard(board, true, false));
     }
     private static String getBestMove(int[] globalBoard) {
         System.out.println(SimplifiedChessBoard.toFormattedString(globalBoard, true, false));
@@ -68,7 +68,7 @@ public class Search {
         return SimplifiedChessBoard.moveToString(globalBoard, bestMove);
     }
     public static void main(String[] args) {
-        int[] board = SimplifiedChessBoard.stringToIntBoard("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 0", true);
+        int[] board = SimplifiedChessBoard.stringToIntBoard("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 0", true, false);
         System.out.println(intBoardSearch(board));
     }
 }

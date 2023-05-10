@@ -36,7 +36,7 @@ public class Puzzles {
             int i = 0;
             while ((line = br.readLine()) != null) {
                 if (i++ % 10000 == 0) System.out.print("i");
-                if (i % 1000000 == 999999) break;
+                if (i % 1000000 == 1000) break;
                 String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
@@ -45,11 +45,12 @@ public class Puzzles {
         } catch (IOException e) {
             System.out.println("frick 2");
         }
+        System.out.println('\n');
         return records;
     }
 
     private static ArrayList<List<String>> findPuzzles(String criterion, int count) {
-        ArrayList<List<String>> puzzles = new ArrayList<List<String>>(count);
+        ArrayList<List<String>> puzzles = new ArrayList<>(count);
         for (List<String> puzzle : puzzleSet)
             if (puzzles.size() >= count) return puzzles;
             else if (Arrays.asList(puzzle.get(7).split(" ")).contains(criterion))
@@ -66,8 +67,9 @@ public class Puzzles {
 
         Mate in 1: Q5k1/p1p3p1/5rP1/8/3P4/7P/q3r3/B4RK1 b - - 1 34  -=-  f6f8 a8f8
          */
-        ArrayList<List<String>> mateInOnePuzzles = findPuzzles("mateIn1", 10);
-        for (List<String> puzzle : mateInOnePuzzles)
-            System.out.println(puzzle.get(1) + "  -=-  " + puzzle.get(2) + '\n');
+        List<String> puzzle = findPuzzles("mateIn1", 3).get(2);
+        System.out.println(puzzle.get(1) + "  -=-  " + puzzle.get(2) + '\n');
+        int[] board = DisplayChessBoard.displayBoard(puzzle.get(1));
+        System.out.println((board[64] == 1 ? "White" : "Black") + " to move");
     }
 }

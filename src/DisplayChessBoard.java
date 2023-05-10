@@ -20,17 +20,23 @@ public class DisplayChessBoard {
 
         return panel;
     }
-    public static void main(String[] args) {
-        System.out.println("Enter board code\n");
-        Scanner scan = new Scanner(System.in);
-        String str = scan.nextLine();
-        System.out.println(str);
-        int[] board = SimplifiedChessBoard.stringToIntBoard(str, true);
+    public static int[] displayBoard(String fen) {
+        int[] board = SimplifiedChessBoard.stringToIntBoard(fen, true, false);
         board = SimplifiedChessBoard.flipBoard(board);
         ChessPiece[][] wackyBoard = SimplifiedChessBoard.intToChessPieceBoard(board, true);
         ChessPanel panel = createWindow();
         panel.setBoard(wackyBoard);
         panel.draw();
+        return board;
+    }
+    public static void main(String[] args) {
+        System.out.println("Enter board code\n");
+        Scanner scan = new Scanner(System.in);
+        String str = scan.nextLine();
+        System.out.println(str);
+
+        int[] board = displayBoard(str);
+        ChessPiece[][] wackyBoard = SimplifiedChessBoard.intToChessPieceBoard(board, true);
 
         ChessBoard cB = new ChessBoard();
         cB.setBoard(wackyBoard);

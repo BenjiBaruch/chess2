@@ -78,9 +78,9 @@ public class SimplifiedChessBoard {
         board[67] = -1;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (wackyBoard[i][j] == null) board[i*8+j] = -1;
+                if (wackyBoard[flipBoard ? 7-i : i][j] == null) board[i*8+j] = -1;
                 else if (!flipBoard) {
-                    int piece = wackyBoard[i][j].toInt() + (wackyBoard[i][j].isPov() ? 0 : 9);
+                    int piece = wackyBoard[i][j].toInt() + (!wackyBoard[i][j].isPov() ? 0 : 9);
                     if (piece % 9 > 0) piece++;
                     if (piece % 9 > 3) piece++;
                     else if ((piece % 9 == 0 || piece % 9 == 3) && !wackyBoard[i][j].getCastleable()) piece++;
@@ -93,7 +93,7 @@ public class SimplifiedChessBoard {
                     if (piece == 9 || piece == 10) board[66] = i*8+j;
                 }
                 else {
-                    int piece = wackyBoard[7-i][j].toInt() + (wackyBoard[7-i][j].isPov() ? 0 : 9);
+                    int piece = wackyBoard[7-i][j].toInt() + (!wackyBoard[7-i][j].isPov() ? 0 : 9);
                     if (piece % 9 > 0) piece++;
                     if (piece % 9 > 3) piece++;
                     else if ((piece % 9 == 0 || piece % 9 == 3) && !wackyBoard[7-i][j].getCastleable()) piece++;
@@ -136,7 +136,7 @@ public class SimplifiedChessBoard {
         return wackyBoard;
     }
 
-    public static int[] stringToIntBoard(String str, boolean flipBoard) {
+    public static int[] stringToIntBoard(String str, boolean flipBoard, boolean isShort) {
         /*
         Creates int[] board from FEN string
 
@@ -179,6 +179,8 @@ public class SimplifiedChessBoard {
                 else System.out.println("Unexpected " + p);
             }
         }
+        // If shortened notation, return now
+        if (isShort) return board;
         // Skip unnecessary slash character at end
         if (str.charAt(strIndex) == '/') strIndex++;
         // If no extra info, return board
@@ -774,8 +776,8 @@ public class SimplifiedChessBoard {
         }
     }
 
-    public static String fenToSample(String[] fen) {
-        int[] board = stringToIntBoard(fen[0], false);
+    public static String fenToSample(String[] fen, boolean isShort) {
+        int[] board = stringToIntBoard(fen[0], false, isShort);
         int eval = parseEval(fen[1]);
         StringBuilder sample = new StringBuilder(200);
         for (int i = 0; i < 12; i++) {
@@ -815,7 +817,7 @@ public class SimplifiedChessBoard {
                 if (i++ % 100 == 0) System.out.print('i');
                 if (i >= stop) return;
                 String[] fen = entry.split(",");
-                String sample = fenToSample(fen);
+                String sample = fenToSample(fen, false);
                 out.write(sample);
                 out.flush();
             }

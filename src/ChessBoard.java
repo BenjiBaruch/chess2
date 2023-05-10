@@ -38,12 +38,13 @@ public class ChessBoard {
             Scanner scan = new Scanner(System.in);
             String str = scan.nextLine();
             System.out.println(str);
-            int[] intBoard = SimplifiedChessBoard.flipBoard(SimplifiedChessBoard.stringToIntBoard(str, true));
-            povIsWhite = intBoard[64] == 1;
-            board = SimplifiedChessBoard.intToChessPieceBoard(intBoard, povIsWhite);
+            int[] intBoard = SimplifiedChessBoard.stringToIntBoard(str, true, false);
+            intBoard = SimplifiedChessBoard.flipBoard(intBoard);
+            povIsWhite = true;
+            board = SimplifiedChessBoard.intToChessPieceBoard(intBoard, false);
             turns = intBoard[69];
             System.out.println("White to move = " + povIsWhite + "\n intBoard[64] = " + intBoard[64]);
-            System.out.println(Search.ChessBoardSearch(this));
+            // System.out.println(Search.ChessBoardSearch(this));
         }
     }
 
