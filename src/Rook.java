@@ -56,6 +56,7 @@ public class Rook extends ChessPiece {
         shootRay(moves, board, -1, 0); // All moves to the left
         shootRay(moves, board, 0, 1); // All moves up
         shootRay(moves, board, 0, -1); // All moves down
+        if (moves[0] > -1) System.out.print("d2");
         return moves;
     }
 }

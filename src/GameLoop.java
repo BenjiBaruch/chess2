@@ -84,11 +84,11 @@ public class GameLoop implements MouseListener {
                 // board.print();
                 // System.out.println((povTurn ? "White" : "Black") + "'s turn");
                 panel.setHighlights(new int[0]);
-                if (playMode == 2) System.out.println(Search.ChessBoardSearch(board));
-                String fen = SimplifiedChessBoard.intBoardToString(SimplifiedChessBoard.chessPieceToIntBoard(board.getBoard(), board.getTurns(), false, board.getHalfMove(), true));
-                String[] fen2 = {fen, "0"};
-                System.out.println(SimplifiedChessBoard.fenToSample(fen2, true));
-                System.out.println("fen " + fen);
+                // if (playMode == 2) System.out.println(Search.ChessBoardSearch(board));
+                // String fen = SimplifiedChessBoard.intBoardToString(SimplifiedChessBoard.chessPieceToIntBoard(board.getBoard(), board.getTurns(), false, board.getHalfMove(), true));
+                // String[] fen2 = {fen, "0"};
+                // System.out.println(SimplifiedChessBoard.fenToSample(fen2, true));
+                // System.out.println("fen " + fen);
             } else {
                 String[] endings = {"Game not over","White win by resignation","White win by checkmate",
                         "White win by timeout","Black win by resignation","Black win by checkmate",

@@ -252,12 +252,16 @@ public class ChessBoard {
         Used by ChessPanel to highlight tiles that can be moved to
          */
         if (isNull(piece/8, piece%8)) return new int[0];
+        // System.out.print("d1");
         int[] highlights = board[piece/8][piece%8].moveMap(board, turns);
+        // if (highlights[0] > -1) System.out.print("d3");
         for (int i = 0; i < highlights.length; i++) {
             if (highlights[i] > -1 && !moveValid(piece, highlights[i])) {
                 highlights[i] = -1;
             }
         }
+        // if (highlights[0] > -1 || highlights[1] > -1 || highlights[2] > -1 || highlights[3] > -1 || highlights[4] > -1)
+        //     System.out.print("d4");
         return highlights;
     }
 
